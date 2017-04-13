@@ -41,8 +41,6 @@ public class MessageController {
     message_ws = message_ws.replaceAll("\"","''");
     
     String return_msg_ws = "Hello " + sender_ws + "! <br />Your message is:<br /> " + message_ws ;
-    // System.out.println(return_msg_ws);      
-    // String jsonResult = "{\"success\":true, \"payload\":\"" + return_msg_ws + "\"}";
     String jsonResult = "{ \"status\": \"success\", \"data\": \"" + return_msg_ws + "\" , \"message\": null }";
     System.out.println(jsonResult);
     return new ResponseEntity<>(jsonResult, HttpStatus.OK);
