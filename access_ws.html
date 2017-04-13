@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Teste WS</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <td>User:</td>
+        <td><input type="text" id="user" /></td>
+      </tr>
+      <tr>
+        <td>Message:</td>
+        <td><textarea name="message" id="message" rows="4" cols="40">
+          </textarea></td>
+      </tr>
+      <tr>
+        <td><input type="button" id="submit" value="Submit"/></td>
+      </tr>
+      <tr>
+        <td colspan="2"><p id="response_from_server">...</p></td>
+      </tr>
+    </table>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $("#submit").click(callWebServicePost);
+      });
+
+
+      var callWebServicePost = function () {
+
+        var sender = $("#user").val();
+        var message = $("#message").val();
+
+        $.ajax({
+          type: 'POST',
+          crossDomain: true,
+          contentType: 'application/json',
+          url: "http://localhost:8080/helloworld",
+          dataType: "json",
+          data: JSON.stringify({
+            "sender": sender,
+            "message": message
+          }),
+          success: function (data, textStatus, jqXHR) {
+            var jsonObj = JSON.stringify(data);            
+            // alert(msg);
+            var msg = JSON.parse(jsonObj);
+            document.getElementById("response_from_server").innerHTML = msg['data'];
+            console.log(jsonObj);
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown);
+          }
+        });
+      }
+    </script>
+  </body>	
+</html>
