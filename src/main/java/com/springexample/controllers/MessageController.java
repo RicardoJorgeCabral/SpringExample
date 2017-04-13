@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
 
 /**
  *
@@ -37,10 +38,10 @@ public class MessageController {
   @RequestMapping(value = "/helloworld", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)  
   public @ResponseBody ResponseEntity<String> helloWorld(@RequestBody Message message) throws URISyntaxException {
     sender_ws = message.getSender();
-    message_ws = message.getMessage().replaceAll("\n", "<br />");
-    message_ws = message_ws.replaceAll("\"","''");
+    message_ws = HtmlUtils.htmlEscape(message.getMessage()); //
+    message_ws = message_ws.replaceAll("\n", "<br />");
     
-    String return_msg_ws = "Hello " + sender_ws + "! <br />Your message is:<br /> " + message_ws ;
+    String return_msg_ws = "Hello " + sender_ws + "! <br />Your message is: <blockquote>" + message_ws + "</blockquote>" ;
     String jsonResult = "{ \"status\": \"success\", \"data\": \"" + return_msg_ws + "\" , \"message\": null }";
     System.out.println(jsonResult);
     return new ResponseEntity<>(jsonResult, HttpStatus.OK);
