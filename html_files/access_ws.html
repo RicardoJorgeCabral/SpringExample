@@ -48,7 +48,7 @@
             var jsonObj = JSON.stringify(data);            
             // alert(msg);
             var msg = JSON.parse(jsonObj);
-            document.getElementById("response_from_server").innerHTML = msg['data'];
+            document.getElementById("response_from_server").innerHTML = msg['data']; //msg.data - experimentar
             console.log(jsonObj);
           },
           error: function (jqXHR, textStatus, errorThrown) {
